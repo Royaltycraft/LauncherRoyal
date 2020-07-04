@@ -1,0 +1,46 @@
+#minecraft
+banned-*
+
+world/
+saves/
+screenshots/
+server.properties
+banned*
+1.12.2*
+logs/
+whitelist.json
+usercache.json
+usernamecache.json
+ops.json
+mods/
+run/
+resourcepacks/
+crash-reports/
+config/
+servers.dat
+eula.txt
+options.txt
+
+
+# eclipse
+bin
+*.launch
+.settings
+.metadata
+.classpath
+.project
+
+# idea
+out
+*.ipr
+*.iws
+*.iml
+.idea
+
+# gradle
+build
+.gradle
+
+# other
+eclipse
+run
