@@ -33,71 +33,69 @@ import fr.theshark34.openlauncherlib.util.CrashReporter;
 import fr.theshark34.openlauncherlib.util.Saver;
 import fr.theshark34.supdate.BarAPI;
 import fr.theshark34.supdate.SUpdate;
-import fr.theshark34.supdate.application.integrated.FileDeleter;
 import fr.theshark34.swinger.Swinger;
 import fr.theshark34.swinger.colored.SColoredBar;
 
 
-public class RoyaltyLauncher
-{
+public class RoyaltyLauncher {
+	
 	public static final GameVersion ROYALTY_VERSION = new GameVersion("1.12.2", GameType.V1_8_HIGHER);
 	public static final GameInfos ROYALTY_INFOS = new GameInfos("royalty", ROYALTY_VERSION, new GameTweak[] {GameTweak.FORGE});
 	public static final File ROYALTY_DIR = ROYALTY_INFOS.getGameDir();
 	public static final Saver ROYALTY_SAVER = new Saver(new File(ROYALTY_DIR, "royalty.properties"));
-	public static final File ROYALTY_CRASH_DIR = new File(ROYALTY_DIR, "crashs");
+	public static final File ROYALTY_CRASH_DIR = new File(ROYALTY_DIR, "crash");
 	public static final CrashReporter ROYALTY_CRASH = new CrashReporter(ROYALTY_INFOS.getServerName(), ROYALTY_CRASH_DIR);
 	public static final String ROYALTY_URL = "http://149.91.81.63";
-	public static final Authenticator ROYALTY_AUTH = new Authenticator("https://authserver.mojang.com/" /*Authenticator.MOJANG_AUTH_URL*/, AuthPoints.NORMAL_AUTH_POINTS);
+    public static final Authenticator ROYALTY_AUTHENTICATOR = new Authenticator("https://authserver.mojang.com/", AuthPoints.NORMAL_AUTH_POINTS);
 	public static final SUpdate ROYALTY_UPDATER = new SUpdate(ROYALTY_URL.concat("/launcher"), ROYALTY_DIR);
 	public static Font ROYALTY_FONT_BOLD;
 	public static Font ROYALTY_FONT_LOW;
 	private static AuthInfos authInfos;
 	private static Thread updateThread;
 
-	public static void main(String[] args)
-	{
-
+	public static void main(String[] args) {
 		Swinger.setSystemLookNFeel();
 		Swinger.setResourcePath("/");
 	    RoyaltyLauncher.ROYALTY_DIR.mkdirs();
 		RoyaltyLauncher.ROYALTY_CRASH_DIR.mkdirs();
 	    try {
-	      File tmp = new File(RoyaltyLauncher.ROYALTY_DIR, "ram.txt");
-	      File tmp2 = new File(ROYALTY_DIR, "royalty.properties");
-	      tmp2.createNewFile();
-	      tmp.createNewFile();
+	    	File tmp = new File(RoyaltyLauncher.ROYALTY_DIR, "ram.txt");
+	    	tmp.createNewFile();
+	    	
+	    	File tmp2 = new File(ROYALTY_DIR, "royalty.properties");
+	    	tmp2.createNewFile();
 	    } catch (IOException e1) {
 	      e1.printStackTrace();
 	    } 
 
-		ROYALTY_UPDATER.addApplication(new FileDeleter());
+//		ROYALTY_UPDATER.addApplication(new FileDeleter());
 
-		try
-		{
+		try {
 			ROYALTY_FONT_BOLD = Font.createFont(Font.TRUETYPE_FONT, getResourceAsStream("edosz.ttf"));
 			GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(ROYALTY_FONT_BOLD);
 			ROYALTY_FONT_LOW = Font.createFont(Font.TRUETYPE_FONT, getResourceAsStream("abeezee.ttf"));
 			GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(ROYALTY_FONT_LOW);
-		}
-		catch (FontFormatException | IOException e)
-		{
+		} catch (FontFormatException | IOException e) {
 			e.printStackTrace();
 		}
-
-
 		new LauncherFrame().setVisible(true);
 	}
 
-
+//
+//	public static void auth(String username, String password) throws AuthenticationException {
+////		Authenticator authenticator = new Authenticator("https://authserver.mojang.com/", AuthPoints.NORMAL_AUTH_POINTS);
+//		AuthResponse response = ROYALTY_AUTH.authenticate(AuthAgent.MINECRAFT, username, password, "");
+//		authInfos = new AuthInfos(response.getSelectedProfile().getName(), response.getAccessToken(), response.getSelectedProfile().getId());
+//	}
 	public static void auth(String username, String password) throws AuthenticationException {
-		Authenticator authenticator = new Authenticator("https://authserver.mojang.com/", AuthPoints.NORMAL_AUTH_POINTS);
-		AuthResponse response = authenticator.authenticate(AuthAgent.MINECRAFT, username, password, "");
-		authInfos = new AuthInfos(response.getSelectedProfile().getName(), response.getAccessToken(), response.getSelectedProfile().getId());
+	    AuthResponse response = ROYALTY_AUTHENTICATOR.authenticate(AuthAgent.MINECRAFT, username, password, "");
+	    authInfos = new AuthInfos(response.getSelectedProfile().getName(), response.getAccessToken(), response.getSelectedProfile().getId());
 	}
-	  
+	
+	
 	public static void refresh() throws AuthenticationException
 	{
-		RefreshResponse response = ROYALTY_AUTH.refresh(
+		RefreshResponse response = ROYALTY_AUTHENTICATOR.refresh(
 				ROYALTY_SAVER.get("access-token"), ROYALTY_SAVER.get("client-token")
 		);
 
@@ -109,9 +107,6 @@ public class RoyaltyLauncher
 	}
 
 	public static void setAuthInfos(String username, String accessToken, String uuid) throws AuthenticationException {
-//		if (uuid != null && !uuid.isEmpty()) {
-//			if (!ROYALTY_ACCOUNTS.canLogin(uuid))
-//				throw new AuthenticationException(new AuthError("TooManyAccounts", "La limite de comptes sur ce PC a �t� atteinte !", ""));
 		authInfos = new AuthInfos(
 				username,
 				accessToken,
@@ -128,6 +123,7 @@ public class RoyaltyLauncher
 		
 		ROYALTY_SAVER.set("username", authInfos.getUsername());
 	}
+	
 
 	public static void update() throws Exception
 	{
@@ -161,26 +157,52 @@ public class RoyaltyLauncher
 			}
 		};
 		updateThread.start();
-		ROYALTY_UPDATER.start();
+//		ROYALTY_UPDATER.start();
 		updateThread.interrupt();
 	}
 
-	public static void interruptUpdateThread()
-	{
-		updateThread.interrupt();
-	}
-
+	  static void interruptThread() {
+	    updateThread.isInterrupted();
+	  }
+	  
+	  public static void interruptUpdateThread() {
+	    updateThread.interrupt();
+	  }
+	
+//	  public static void launch() throws LaunchException {
+//		    ExternalLaunchProfile profile = MinecraftLauncher.createExternalProfile(ROYALTY_INFOS, GameFolder.BASIC, authInfos);
+//
+//			AllowedMemory am = AllowedMemory.XMX2G;
+//			try {
+//				am = AllowedMemory.valueOf(ROYALTY_SAVER.get("allowed-memory", "XMX2G"));
+//			} catch (IllegalArgumentException ex) {}
+//			profile.getVmArgs().addAll(0, am.getVmArgs());
+//			
+//		    ExternalLauncher launcher = new ExternalLauncher(profile);
+//		    Process p = launcher.launch();
+//		    System.exit(0);
+//		    try {
+//		      Thread.sleep(5000L);
+//		      LauncherFrame.getInstance().setVisible(false);
+//		      p.waitFor();
+//		    } catch (InterruptedException e) {
+//		      e.printStackTrace();
+//		    } 
+//		    System.exit(0);
+//		  }
+	
+	
 	public static void launch() throws LaunchException, InterruptedException {
 		ExternalLaunchProfile profile = MinecraftLauncher.createExternalProfile(ROYALTY_INFOS,
 				GameFolder.BASIC, authInfos);
 
 		AllowedMemory am = AllowedMemory.XMX2G;
 		try {
-			am = AllowedMemory.valueOf(ROYALTY_SAVER.get("allowed-memory", "XMX2G"));
+			am = AllowedMemory.valueOf(ROYALTY_SAVER.get("allowed-memory"));//, "XMX2G"));
 		} catch (IllegalArgumentException ex) {}
-		profile.getVmArgs().addAll(0, am.getVmArgs());
+		profile.getVmArgs().addAll(am.getVmArgs());
 
-		//profile.getArgs().add("--demo");
+//		profile.getArgs().add("--demo");
 
 		ExternalLauncher launcher = new ExternalLauncher(profile, new BeforeLaunchingEvent() {
 			@Override
@@ -190,13 +212,17 @@ public class RoyaltyLauncher
 					processBuilder.command().set(0, javaPath);
 			}
 		});
-
+		
 		LauncherFrame.getInstance().setVisible(false);
 		int exitCode = launcher.launch().waitFor();
 		System.out.println("\nMinecraft finished with exit code " + exitCode);
 		System.exit(0);
+		
 	}
-
+		
+		
+	
+	
 	
 	  
 	public static String reportException(Exception e)

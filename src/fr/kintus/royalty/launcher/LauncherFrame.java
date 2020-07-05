@@ -10,7 +10,7 @@ import static fr.kintus.royalty.launcher.RoyaltyLauncher.tryToExit;
 import static fr.theshark34.swinger.Swinger.getResource;
 
 
-
+// Not a real singleton, had to be fixed
 public class LauncherFrame extends JFrame implements WindowListener {
 	/**
 	 * 

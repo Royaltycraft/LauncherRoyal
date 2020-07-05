@@ -238,10 +238,12 @@ public class LauncherPanel extends JPanel implements SwingerEventListener
 							willRefresh = false;
 							return;
 						}
+						
 						if(keeploginCheckBox.isChecked()) {
 							RoyaltyLauncher.saveInfos(true);
-//							saver.set("username", usernameField.getText());	//Save the username on the launcher.properties file
 						}
+						
+						
 //						saveInfos(keeploginCheckBox.isChecked());
 						LauncherPanel.this.saver.set("username", LauncherPanel.this.usernameField.getText());
 						willRefresh = true;
