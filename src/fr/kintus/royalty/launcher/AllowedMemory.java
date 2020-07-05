@@ -3,9 +3,6 @@ package fr.kintus.royalty.launcher;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * Created by David on 30/10/2016.
- */
 public enum AllowedMemory {
 
 	XMX1G("1 Go", "-Xmx1G"),

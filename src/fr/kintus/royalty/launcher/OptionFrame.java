@@ -89,15 +89,10 @@ public class OptionFrame extends JDialog implements MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		if (e.getSource() == saveButton)
-		{
+		if (e.getSource() == saveButton) {
 			ROYALTY_SAVER.set("allowed-memory", ((AllowedMemory) memoryComboBox.getSelectedItem()).name());
 			setVisible(false);
 		}
-//		else if (e.getSource() == dabsLabel)
-//		{
-//			browseOnDesktop("https://github.com/Dabsunter");
-//		}
 	}
 
 	@Override

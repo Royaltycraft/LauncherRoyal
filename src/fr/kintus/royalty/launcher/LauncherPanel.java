@@ -54,7 +54,7 @@ public class LauncherPanel extends JPanel implements SwingerEventListener
 	
 	
 	private Image background = getResource("background.png");
-	private Image fields = getResource("fields.png");
+	private Image fields = getResource("fields_extended.png");
 	private BufferedImage news = null;
 
 	private boolean willRefresh;
@@ -70,7 +70,8 @@ public class LauncherPanel extends JPanel implements SwingerEventListener
 
 	private STexturedButton quitButton = new STexturedButton(getResource("close.png"));
 	private STexturedButton hideButton = new STexturedButton(getResource("hide.png"));
-	private STexturedButton settingsButton = new STexturedButton(getResource("settings.png"));
+	private STexturedButton settingsButton1 = new STexturedButton(getResource("settings.png"));
+	private STexturedButton settingsButton2 = new STexturedButton(getResource("settings_big_buttons.png"));
 
 	private STexturedButton discoverButton = new STexturedButton(getResource("discover.png"), getResource("discover-hover.png"));
 	private SColoredBar progressBar = new SColoredBar(getTransparentWhite(25), getTransparentWhite(75));
@@ -88,7 +89,7 @@ public class LauncherPanel extends JPanel implements SwingerEventListener
 		usernameField.setCaretColor(Color.BLACK);
 		usernameField.setOpaque(false);
 		usernameField.setBorder(null);
-		usernameField.setBounds(39, 180, 220, 38);
+		usernameField.setBounds(39, 180, 300, 38);	// 39 180 220 38
 		usernameField.setVisible(!willRefresh);
 		add(usernameField);
 
@@ -98,13 +99,13 @@ public class LauncherPanel extends JPanel implements SwingerEventListener
 		passwordField.setCaretColor(Color.BLACK);
 		passwordField.setOpaque(false);
 		passwordField.setBorder(null);
-		passwordField.setBounds(39, 255, 220, 38);
+		passwordField.setBounds(39, 255, 300, 38);	// 39 255 220 38
 		passwordField.setVisible(!willRefresh);
 		add(passwordField);
 
 		authLabel.setForeground(Color.WHITE);
 		authLabel.setFont(ROYALTY_FONT_BOLD.deriveFont(24f));
-		authLabel.setBounds(33, 159, 235, 142);
+		authLabel.setBounds(33, 159, 320, 142);	//Augmenter pour version fields extended	// 33 159 235 142
 		authLabel.setVisible(willRefresh);
 		add(authLabel);
 
@@ -135,9 +136,12 @@ public class LauncherPanel extends JPanel implements SwingerEventListener
 		hideButton.addEventListener(this);
 		add(hideButton);
 
-		settingsButton.setBounds(716, 14);
-		settingsButton.addEventListener(this);
-		add(settingsButton);
+		settingsButton1.setBounds(716, 14);
+		settingsButton1.addEventListener(this);
+		add(settingsButton1);
+		settingsButton2.setBounds(275, 370);
+		settingsButton2.addEventListener(this);
+		add(settingsButton2);
 
 		discoverButton.setBounds(701, 455);
 		discoverButton.addEventListener(this);
@@ -197,7 +201,7 @@ public class LauncherPanel extends JPanel implements SwingerEventListener
 			{
 				LauncherFrame.getInstance().setState(Frame.ICONIFIED);
 			}
-			else if (event.getSource() == settingsButton)
+			else if (event.getSource() == settingsButton1 || event.getSource() == settingsButton2)
 			{
 				OptionFrame.getInstance().setVisible(true);
 			}
@@ -241,11 +245,10 @@ public class LauncherPanel extends JPanel implements SwingerEventListener
 						
 						if(keeploginCheckBox.isChecked()) {
 							RoyaltyLauncher.saveInfos(true);
+							LauncherPanel.this.saver.set("username", LauncherPanel.this.usernameField.getText());
 						}
 						
 						
-//						saveInfos(keeploginCheckBox.isChecked());
-						LauncherPanel.this.saver.set("username", LauncherPanel.this.usernameField.getText());
 						willRefresh = true;
 
 						try {
@@ -289,6 +292,7 @@ public class LauncherPanel extends JPanel implements SwingerEventListener
 	{
 		usernameField.setVisible(enabled);
 		passwordField.setVisible(enabled);
+		
 		playButton.setEnabled(enabled);
 		discordButton.setVisible(enabled);
 		authLabel.setVisible(!enabled);

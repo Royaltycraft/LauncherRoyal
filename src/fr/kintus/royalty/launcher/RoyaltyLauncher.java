@@ -33,6 +33,7 @@ import fr.theshark34.openlauncherlib.util.CrashReporter;
 import fr.theshark34.openlauncherlib.util.Saver;
 import fr.theshark34.supdate.BarAPI;
 import fr.theshark34.supdate.SUpdate;
+import fr.theshark34.supdate.application.integrated.FileDeleter;
 import fr.theshark34.swinger.Swinger;
 import fr.theshark34.swinger.colored.SColoredBar;
 
@@ -68,7 +69,7 @@ public class RoyaltyLauncher {
 	      e1.printStackTrace();
 	    } 
 
-//		ROYALTY_UPDATER.addApplication(new FileDeleter());
+		ROYALTY_UPDATER.addApplication(new FileDeleter());
 
 		try {
 			ROYALTY_FONT_BOLD = Font.createFont(Font.TRUETYPE_FONT, getResourceAsStream("edosz.ttf"));
@@ -81,12 +82,7 @@ public class RoyaltyLauncher {
 		new LauncherFrame().setVisible(true);
 	}
 
-//
-//	public static void auth(String username, String password) throws AuthenticationException {
-////		Authenticator authenticator = new Authenticator("https://authserver.mojang.com/", AuthPoints.NORMAL_AUTH_POINTS);
-//		AuthResponse response = ROYALTY_AUTH.authenticate(AuthAgent.MINECRAFT, username, password, "");
-//		authInfos = new AuthInfos(response.getSelectedProfile().getName(), response.getAccessToken(), response.getSelectedProfile().getId());
-//	}
+	
 	public static void auth(String username, String password) throws AuthenticationException {
 	    AuthResponse response = ROYALTY_AUTHENTICATOR.authenticate(AuthAgent.MINECRAFT, username, password, "");
 	    authInfos = new AuthInfos(response.getSelectedProfile().getName(), response.getAccessToken(), response.getSelectedProfile().getId());
@@ -157,7 +153,7 @@ public class RoyaltyLauncher {
 			}
 		};
 		updateThread.start();
-//		ROYALTY_UPDATER.start();
+		ROYALTY_UPDATER.start();
 		updateThread.interrupt();
 	}
 
@@ -169,28 +165,7 @@ public class RoyaltyLauncher {
 	    updateThread.interrupt();
 	  }
 	
-//	  public static void launch() throws LaunchException {
-//		    ExternalLaunchProfile profile = MinecraftLauncher.createExternalProfile(ROYALTY_INFOS, GameFolder.BASIC, authInfos);
-//
-//			AllowedMemory am = AllowedMemory.XMX2G;
-//			try {
-//				am = AllowedMemory.valueOf(ROYALTY_SAVER.get("allowed-memory", "XMX2G"));
-//			} catch (IllegalArgumentException ex) {}
-//			profile.getVmArgs().addAll(0, am.getVmArgs());
-//			
-//		    ExternalLauncher launcher = new ExternalLauncher(profile);
-//		    Process p = launcher.launch();
-//		    System.exit(0);
-//		    try {
-//		      Thread.sleep(5000L);
-//		      LauncherFrame.getInstance().setVisible(false);
-//		      p.waitFor();
-//		    } catch (InterruptedException e) {
-//		      e.printStackTrace();
-//		    } 
-//		    System.exit(0);
-//		  }
-	
+
 	
 	public static void launch() throws LaunchException, InterruptedException {
 		ExternalLaunchProfile profile = MinecraftLauncher.createExternalProfile(ROYALTY_INFOS,
