@@ -54,6 +54,11 @@ public class RoyaltyLauncher {
 	private static AuthInfos authInfos;
 	private static Thread updateThread;
 
+	
+        
+    private static final boolean IS_64BIT = SystemUtils.is64bit0(); 
+       
+       
 	public static void main(String[] args) {
 		Swinger.setSystemLookNFeel();
 		Swinger.setResourcePath("/");
@@ -80,6 +85,15 @@ public class RoyaltyLauncher {
 			e.printStackTrace();
 		}
 		new LauncherFrame().setVisible(true);
+		
+		
+		System.out.println("Java version: " + System.getProperty("java.version"));
+		if(IS_64BIT) { 
+			System.out.println("Java in version x64 bits");
+		} else {
+			System.out.println("Java in version x86 bits");
+		}
+
 	}
 
 	
@@ -89,8 +103,7 @@ public class RoyaltyLauncher {
 	}
 	
 	
-	public static void refresh() throws AuthenticationException
-	{
+	public static void refresh() throws AuthenticationException {
 		RefreshResponse response = ROYALTY_AUTHENTICATOR.refresh(
 				ROYALTY_SAVER.get("access-token"), ROYALTY_SAVER.get("client-token")
 		);
@@ -170,11 +183,26 @@ public class RoyaltyLauncher {
 	public static void launch() throws LaunchException, InterruptedException {
 		ExternalLaunchProfile profile = MinecraftLauncher.createExternalProfile(ROYALTY_INFOS,
 				GameFolder.BASIC, authInfos);
-
-		AllowedMemory am = AllowedMemory.XMX2G;
+		
+		AllowedMemory am;
+		if(IS_64BIT) {
+			am = AllowedMemory.XMX4G;				
+		} else {
+			am = AllowedMemory.XMX2G;				
+		}
+		
+		
 		try {
 			am = AllowedMemory.valueOf(ROYALTY_SAVER.get("allowed-memory"));//, "XMX2G"));
-		} catch (IllegalArgumentException ex) {}
+		} catch (IllegalArgumentException ex) {
+			// Pass
+		} catch (NullPointerException e) {
+			if(IS_64BIT) {
+				am = AllowedMemory.XMX4G;				
+			} else {
+				am = AllowedMemory.XMX2G;				
+			}
+		}
 		profile.getVmArgs().addAll(am.getVmArgs());
 
 //		profile.getArgs().add("--demo");
@@ -245,6 +273,9 @@ public class RoyaltyLauncher {
 	{
 		return Swinger.class.getResourceAsStream("/" + name);
 	}
-	
+
+    public static boolean is64bit() { 
+        return IS_64BIT; 
+    } 
 	
 }
