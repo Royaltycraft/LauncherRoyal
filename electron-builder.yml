@@ -1,6 +1,7 @@
 appId: 'royaltylauncher'
-productName: 'Launcher Royalty'
+productName: 'LauncherRoyalty'
 artifactName: '${productName}-setup-${version}.${ext}'
+
 
 copyright: 'Copyright © 2018-2023 Daniel Scalzi Royalty'
 
@@ -45,7 +46,3 @@ linux:
   description: 'Royalty Custom Launcher to join its modded server. All mods, config and updates are automatically handled.'
   category: 'Game'
 
-
-directories:
-  buildResources: 'build'
-  output: 'dist'
