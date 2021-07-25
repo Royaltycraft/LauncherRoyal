@@ -1,8 +1,8 @@
-appId: 'helioslauncher'
-productName: 'Helios Launcher'
+appId: 'royaltylauncher'
+productName: 'Launcher Royalty'
 artifactName: '${productName}-setup-${version}.${ext}'
 
-copyright: 'Copyright © 2018-2021 Daniel Scalzi'
+copyright: 'Copyright © 2018-2023 Daniel Scalzi Royalty'
 
 asar: true
 compression: 'maximum'
@@ -39,10 +39,10 @@ mac:
 # Linux Configuration
 linux: 
   target: 'AppImage'
-  maintainer: 'Daniel Scalzi'
+  maintainer: 'Royaltycraft'
   vendor: 'Daniel Scalzi'
   synopsis: 'Modded Minecraft Launcher'
-  description: 'Custom launcher which allows users to join modded servers. All mods, configurations, and updates are handled automatically.'
+  description: 'Royalty Custom Launcher to join its modded server. All mods, config and updates are automatically handled.'
   category: 'Game'
 
 
