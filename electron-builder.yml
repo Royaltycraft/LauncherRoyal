@@ -3,10 +3,10 @@ productName: 'Royalty'
 artifactName: '${productName}-setup-${version}.${ext}'
 
 
-directories:
-  buildResources: 'build'
-  output: 'dist'
-  doc: 'docs'
+# directories:
+#   buildResources: 'build'
+#   output: 'dist'
+#   doc: 'docs'
   
 copyright: 'Copyright © 2018-2023 Daniel Scalzi Royalty'
 
